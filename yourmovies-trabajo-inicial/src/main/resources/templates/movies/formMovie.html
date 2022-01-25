@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="text-center">Gestión de películas</h1>
+    <hr>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav text-center">
+                    <a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a>
+                    <a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a>
+                    <a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h2 th:text="${titulo}"
+        class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
+    <form th:action="@{/mmovies/guardar/}" method="post" th:object="${movie}" enctype="multipart/form-data">
+        <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+            Por favor corrija los siguientes errores:
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" class="form-control" th:field="*{titulo}" id="titulo" name="titulo"
+                   placeholder="Escriba el titulo de la película" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="anno" class="form-label">Año</label>
+            <input type="number" class="form-control" th:field="*{anno}" id="anno" name="anno"
+                   placeholder="Escriba la duración de la película" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="duracion" class="form-label">Duración</label>
+            <input type="number" class="form-control" th:field="*{duracion}" id="duracion" name="duracion"
+                   placeholder="Escriba la duración de la película en horas" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="pais" class="form-label">País</label>
+            <input type="text" class="form-control" th:field="*{pais}" id="pais" name="pais"
+                   placeholder="Escriba el nombre del país de la película" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion"
+                   placeholder="Escriba el nombre de la direccion de la película" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="sinopsis" class="form-label">Sinopsis</label>
+            <input type="textarea" class="form-control" th:field="*{sinopsis}" id="sinopsis" name="sinopsis"
+                   placeholder="Escriba la sinopsis de la película" rows="10" cols="40" required="required">
+        </div>
+
+        <div class="mb-3">
+            <label for="genero" class="form-label">Género</label><br>
+            <select class="form-select" th:field="*{genero}" name="genero" id="genero">
+                <option th:value="Drama">Drama</option>
+                <option th:value="Accion">Accion</option>
+                <option th:value="Horror">Horror</option>
+                <option th:value="Aventura">Aventura</option>
+                <option th:value="Documental">Documental</option>
+                <option th:value="Comedia">Comedia</option>
+            </select>
+        </div>
+
+        <img th:if="${movie.imagen != null && #strings.length(movie.imagen) > 0}" class="img-thumbnail rounded float-left"
+             style="max-width: 25%;" th:src="@{'/mmovies/uploads/' + ${movie.imagen}}"
+             th:alt="${movie.imagen}" />
+
+        <div class="mb-3">
+            <label for="file" class="col-sm-2 col-form-label">Imagen</label>
+            <div class="col-sm-6">
+                <input type="file" id="file" name="file" class="form-control"/>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-dark">Guardar</button>
+        <input type="hidden" th:field="*{movie_id}"/>
+        <input type="hidden" th:field="*{imagen}"/>
+    </form>
+    <hr>
+    <a class="btn btn-primary" role="button" th:href="@{/mmovie/}">Ir a Inicio</a>
+</div>
+<br>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
