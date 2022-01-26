@@ -42,8 +42,10 @@ public class ActorServiceImpl implements IActorService {
     }
 
     @Override
-    public Actor getActorById(Integer actor_id) {
-        Actor actor = template.getForObject(url+"/"+actor_id, Actor.class);
+    public Actor getActorById(Long actor_id) {
+        System.out.println("DDDD");
+        Actor actor = template.getForObject(url + "/" + actor_id , Actor.class);
+        System.out.println("SSSS");
         return actor;
     }
 
@@ -60,7 +62,7 @@ public class ActorServiceImpl implements IActorService {
     }
 
     @Override
-    public void deleteActor(Integer actor_id) {
+    public void deleteActor(Long actor_id) {
         template.delete(url + "/" + actor_id);
     }
 }

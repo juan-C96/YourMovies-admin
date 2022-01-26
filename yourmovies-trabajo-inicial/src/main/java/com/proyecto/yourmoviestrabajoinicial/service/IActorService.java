@@ -8,7 +8,7 @@ public interface IActorService {
 
     Page<Actor> getAllActor(Pageable pageable);
 
-    Actor getActorById(Integer actor_id);
+    Actor getActorById(Long actor_id);
     /*
       Page<Actor> getActorByName(String name);
 
@@ -16,5 +16,5 @@ public interface IActorService {
       */
     void saveActor(Actor actor);
 
-    void deleteActor(Integer actor_id);
+    void deleteActor(Long actor_id);
 }

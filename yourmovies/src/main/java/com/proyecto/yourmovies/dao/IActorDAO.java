@@ -1,10 +1,19 @@
 package com.proyecto.yourmovies.dao;
 
 import com.proyecto.yourmovies.model.Actor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface IActorDAO extends JpaRepository<Actor, Long> {
+import java.util.List;
 
+
+public interface IActorDAO {
+
+    List<Actor> getAllActors();
+
+    Actor getActorPorId(Long actor_id);
+
+    void guardarActor(Actor actor);
+
+    void actualizarActor(Actor actor);
+
+    void eliminarActor(Long actor_id);
 }

@@ -1,10 +1,22 @@
 package com.proyecto.yourmovies.dao;
 
 import com.proyecto.yourmovies.model.Movie;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface IMovieDAO extends JpaRepository<Movie, Long> {
+import java.util.List;
 
+public interface IMovieDAO {
+
+    List<Movie> buscarTodos();
+
+    Movie buscarMoviePorId(Long movie_id);
+
+    List<Movie> getMovieByTitulo(String titulo);
+
+    List<Movie> getMoviesByGenero(String genero);
+
+    void guardarMovie(Movie movie);
+
+    void actualizarMovie(Movie movie);
+
+    void eliminarMovie(Long movie_id);
 }

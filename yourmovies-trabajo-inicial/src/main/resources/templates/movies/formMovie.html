@@ -6,7 +6,6 @@
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
-
 <div class="container">
 
     <h1 class="text-center">Gestión de películas</h1>
@@ -22,9 +21,10 @@
             </div>
         </div>
     </nav>
-
+    <hr>
+    <br>
     <h2 th:text="${titulo}"
-        class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
+        class="text-secondary"></h2>
     <form th:action="@{/mmovies/guardar/}" method="post" th:object="${movie}" enctype="multipart/form-data">
         <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
             Por favor corrija los siguientes errores:
@@ -91,7 +91,7 @@
         <input type="hidden" th:field="*{imagen}"/>
     </form>
     <hr>
-    <a class="btn btn-primary" role="button" th:href="@{/mmovie/}">Ir a Inicio</a>
+    <a class="btn btn-primary" role="button" th:href="@{/mmovies/listado}">Ir al listado de películas</a>
 </div>
 <br>
 <br>

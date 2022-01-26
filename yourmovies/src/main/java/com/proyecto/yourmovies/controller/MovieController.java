@@ -15,13 +15,11 @@ public class MovieController {
 
     @Autowired
     private IMovieService iMovieService;
-  //  private IActorService iActorService;
 
-   /* public MovieController(IMovieService iMovieService, IActorService iActorService) {
+    public MovieController(IMovieService iMovieService, IActorService iActorService) {
         super();
         this.iMovieService = iMovieService;
-        this.iActorService = iActorService;
-    }*/
+    }
 
     @GetMapping("/movies")
     public ResponseEntity<List<Movie>> allMovies(){
@@ -38,10 +36,20 @@ public class MovieController {
         return iMovieService.getMovieById(movie_id);
     }
 
-    @PutMapping("/movies/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable(value = "movie_id") Long movie_id,
-                                             @RequestBody Movie movieDetails) {
-        Movie movie = iMovieService.getMovieById(movie_id);
+    @GetMapping("/movies/titulo/{titulo}")
+    public List<Movie> findMoviesByTitulo(@PathVariable("titulo") String titulo) {
+        return iMovieService.getMovieByTitulo(titulo);
+    }
+
+    @GetMapping("/movies/genero/{genero}")
+    public List<Movie> getMoviesByGenero(@PathVariable("genero") String genero) {
+        return iMovieService.getMoviesByGenero(genero);
+    }
+
+    @PutMapping("/movies")
+    public ResponseEntity<Movie> updateMovie(@RequestBody Movie movieDetails) {
+
+        Movie movie = iMovieService.getMovieById(movieDetails.getMovie_id());
 
         movie.setTitulo(movieDetails.getTitulo());
         movie.setSinopsis(movieDetails.getSinopsis());
@@ -60,8 +68,6 @@ public class MovieController {
 
     @DeleteMapping("/movies/{id}")
     public void deleteMovie(@PathVariable(value = "id") Long id){
-        System.out.println("aaaaaaa ");
         iMovieService.deleteMovie(id);
-        System.out.println("bbbbbb ");
     }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <h1 class="text-center">Gestión de películas</h1>
+    <hr>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav text-center">
+                    <a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a>
+                    <a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a>
+                    <a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <hr>
+    <br>
+    <h2 th:text="${titulo}"
+        class="text-secondary"></h2>
+    <form th:action="@{/aactors/guardar/}" method="post" th:object="${actor}" enctype="multipart/form-data">
+        <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+            Por favor corrija los siguientes errores:
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{name}" id="name" name="name"
+                   placeholder="Escriba el nombre del actor." required="required">
+        </div>
+        <div class="mb-3">
+            <label for="f_born" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" th:field="*{f_born}" id="f_born" name="f_born" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">País</label>
+            <input type="text" class="form-control" th:field="*{country}" id="country" name="country"
+                   placeholder="Escriba el país de nacimiento del actor." required="required">
+        </div>
+            <hr>
+        <button type="submit" class="btn btn-dark">Guardar</button>
+        <input type="hidden" th:field="*{actor_id}"/>
+    </form>
+    <hr>
+    <a class="btn btn-primary" role="button" th:href="@{/aactors/listado}">Ir al listado de actores</a>
+</div>
+<br>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

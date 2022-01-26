@@ -1,5 +1,7 @@
 package com.proyecto.yourmovies.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +17,7 @@ public class Actor {
     private String name;
 
     @Column(name = "f_born")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date f_born;
 
     @Column(name = "country")
@@ -24,8 +27,7 @@ public class Actor {
 
     }
 
-    public Actor(Long actor_id, String name, Date f_born, String country) {
-        this.actor_id = actor_id;
+    public Actor(String name, Date f_born, String country) {
         this.name = name;
         this.f_born = f_born;
         this.country = country;

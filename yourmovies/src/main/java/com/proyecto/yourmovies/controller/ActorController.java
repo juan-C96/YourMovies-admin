@@ -1,23 +1,21 @@
 package com.proyecto.yourmovies.controller;
 
-import com.proyecto.yourmovies.service.IMovieService;
 import com.proyecto.yourmovies.model.Actor;
 import com.proyecto.yourmovies.service.IActorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class ActorController {
 
-    private IMovieService IMovieService;
+    @Autowired
     private IActorService iActorService;
 
-    public ActorController(IMovieService IMovieService, IActorService iActorService) {
+    public ActorController(IActorService iActorService) {
         super();
-        this.IMovieService = IMovieService;
         this.iActorService = iActorService;
     }
 
@@ -27,21 +25,18 @@ public class ActorController {
     }
 
     @PostMapping("/actors")
-    public Actor addActor(@RequestBody Actor actor){
-        return iActorService.saveActor(actor);
+    public void addActor(@RequestBody Actor actor){
+        iActorService.saveActor(actor);
     }
 
     @GetMapping("/actors/{id}")
-    public ResponseEntity<Actor> findActorById(@PathVariable(value = "actor_id")
-                                                       Long actor_id){
-        Actor actor = iActorService.getActorById(actor_id);
-        return ResponseEntity.ok().body(actor);
+    public Actor findActorById(@PathVariable(value = "id") Long actor_id){
+        return iActorService.getActorById(actor_id);
     }
 
-    @PutMapping("/actors/{id}")
-    public ResponseEntity<Actor> updateActor(@PathVariable(value = "actor_id") Long actor_id,
-                                             @RequestBody Actor actorDetails) {
-        Actor actor = iActorService.getActorById(actor_id);
+    @PutMapping("/actors")
+    public ResponseEntity<Actor> updateActor(@RequestBody Actor actorDetails) {
+        Actor actor = iActorService.getActorById(actorDetails.getActor_id());
 
         actor.setName(actorDetails.getName());
         actor.setF_born(actorDetails.getF_born());
@@ -53,10 +48,7 @@ public class ActorController {
     }
 
     @DeleteMapping("/actors/{id}")
-    public ResponseEntity<Void> deleteActor(@PathVariable(value = "actor_id")
-                                                    Long actor_id){
+    public void deleteActor(@PathVariable(value = "id") Long actor_id){
         iActorService.deleteActor(actor_id);
-
-        return ResponseEntity.ok().build();
     }
 }

@@ -10,9 +10,9 @@ public interface IActorService {
 
     Actor getActorById(Long id);
 
-    Actor saveActor(Actor actor);
+    void saveActor(Actor actor);
 
-    Actor updateActor(Actor actor);
+    void updateActor(Actor actor);
 
     void deleteActor(Long id);
 }

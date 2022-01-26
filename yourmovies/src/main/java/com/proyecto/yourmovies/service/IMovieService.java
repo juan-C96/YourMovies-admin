@@ -10,9 +10,13 @@ public interface IMovieService {
 
     Movie getMovieById(Long id);
 
+    List<Movie> getMovieByTitulo(String titulo);
+
+    List<Movie> getMoviesByGenero(String genero);
+
     void saveMovie(Movie movie);
 
-    Movie updateMovie(Movie movie);
+    void updateMovie(Movie movie);
 
     void deleteMovie(Long id);
 }

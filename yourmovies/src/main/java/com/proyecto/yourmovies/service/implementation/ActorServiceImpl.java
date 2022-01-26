@@ -3,6 +3,7 @@ package com.proyecto.yourmovies.service.implementation;
 import com.proyecto.yourmovies.model.Actor;
 import com.proyecto.yourmovies.dao.IActorDAO;
 import com.proyecto.yourmovies.service.IActorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Service
 public class ActorServiceImpl implements IActorService {
 
+    @Autowired
     IActorDAO actorRepository;
 
     public ActorServiceImpl(IActorDAO actorRepository) {
@@ -19,28 +21,29 @@ public class ActorServiceImpl implements IActorService {
 
     @Override
     public List<Actor> getAllActors() {
-        return actorRepository.findAll();
+        return actorRepository.getAllActors();
     }
 
     @Override
     public Actor getActorById(Long id) {
-        return actorRepository.getById(id);
+        return actorRepository.getActorPorId(id);
     }
 
     @Override
-    public Actor saveActor(Actor actor) {
-        Actor actor_n = new Actor(actor.getActor_id(), actor.getName(), actor.getF_born(), actor.getCountry());
+    public void saveActor(Actor actor) {
 
-        return actorRepository.save(actor_n);
+        Actor actor_n = new Actor(actor.getName(), actor.getF_born(), actor.getCountry());
+
+        actorRepository.guardarActor(actor_n);
     }
 
     @Override
-    public Actor updateActor(Actor actor) {
-        return actorRepository.save(actor);
+    public void updateActor(Actor actor) {
+        actorRepository.guardarActor(actor);
     }
 
     @Override
     public void deleteActor(Long id) {
-        actorRepository.deleteById(id);
+        actorRepository.eliminarActor(id);
     }
 }

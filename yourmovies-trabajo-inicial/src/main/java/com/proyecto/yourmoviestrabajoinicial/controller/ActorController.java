@@ -1,6 +1,7 @@
 package com.proyecto.yourmoviestrabajoinicial.controller;
 
 import com.proyecto.yourmoviestrabajoinicial.model.Actor;
+import com.proyecto.yourmoviestrabajoinicial.model.Movie;
 import com.proyecto.yourmoviestrabajoinicial.paginator.PageRender;
 import com.proyecto.yourmoviestrabajoinicial.service.IActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,24 @@ public class ActorController {
         return "actors/listActor";
     }
 
+    @GetMapping("/nuevo")
+    public String nuevo(Model model) {
+        Actor actor = new Actor();
+        model.addAttribute("titulo", "Nuevo Actor");
+        model.addAttribute("actor", actor);
+        return "actors/formActor";
+    }
+
+    @GetMapping(value = "/ver/{id}")
+    public String ver(Model model, @PathVariable("id") Long id, RedirectAttributes attributes) {
+        Actor actor = actorService.getActorById(id);
+        System.out.println("AAAAA");
+        model.addAttribute("actor", actor);
+        model.addAttribute("name", "Detalle del actor: " + actor.getName());
+        System.out.println("actor "+actor.getActor_id());
+        return "actors/verActor";
+    }
+
     @PostMapping("/guardar/")
     public String guardarActor(Model model, Actor actor, RedirectAttributes attributes) {
         actorService.saveActor(actor);
@@ -39,7 +58,7 @@ public class ActorController {
     }
 
     @GetMapping("/editar/{id}")
-    public String editarActor(Model model, @PathVariable("id") Integer id) {
+    public String editarActor(Model model, @PathVariable("id") Long id) {
         Actor actor = actorService.getActorById(id);
         model.addAttribute("titulo", "Editar actor");
         model.addAttribute("actor", actor);
@@ -47,7 +66,7 @@ public class ActorController {
     }
 
     @GetMapping("/borrar/{id}")
-    public String eliminarActor(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
+    public String eliminarActor(Model model, @PathVariable("id") Long id, RedirectAttributes attributes) {
         Actor actor = actorService.getActorById(id);
         if (actor != null) {
             actorService.deleteActor(id);

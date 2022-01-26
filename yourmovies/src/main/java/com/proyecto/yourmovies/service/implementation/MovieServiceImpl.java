@@ -14,19 +14,29 @@ public class MovieServiceImpl implements IMovieService {
     @Autowired
     IMovieDAO movieRepository;
 
-  /*  public MovieServiceImpl(IMovieDAO movieRepository) {
+    public MovieServiceImpl(IMovieDAO movieRepository) {
         super();
         this.movieRepository = movieRepository;
-    }*/
+    }
 
     @Override
     public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+        return movieRepository.buscarTodos();
     }
 
     @Override
     public Movie getMovieById(Long id) {
-        return movieRepository.getById(id);
+        return movieRepository.buscarMoviePorId(id);
+    }
+
+    @Override
+    public List<Movie> getMovieByTitulo(String titulo) {
+        return movieRepository.getMovieByTitulo(titulo);
+    }
+
+    @Override
+    public List<Movie> getMoviesByGenero(String genero) {
+        return movieRepository.getMoviesByGenero(genero);
     }
 
     @Override
@@ -36,26 +46,26 @@ public class MovieServiceImpl implements IMovieService {
             if(movie.getActors() == null){
                 movie_n = new Movie(movie.getTitulo(), movie.getAnno(),
                         movie.getDuracion(), movie.getPais(), movie.getDireccion(), movie.getGenero(),
-                        movie.getSinopsis());
+                        movie.getSinopsis(), movie.getImagen());
 
-                movieRepository.save(movie_n);
+                movieRepository.guardarMovie(movie_n);
             } else {
                 movie_n = new Movie(movie.getMovie_id(), movie.getTitulo(), movie.getAnno(),
                         movie.getDuracion(), movie.getPais(), movie.getDireccion(), movie.getGenero(),
                         movie.getSinopsis(), movie.getImagen(), movie.getActors());
 
-                movieRepository.save(movie_n);
+                movieRepository.guardarMovie(movie_n);
             }
 
     }
 
     @Override
-    public Movie updateMovie(Movie movie) {
-        return movieRepository.save(movie);
+    public void updateMovie(Movie movie) {
+        movieRepository.actualizarMovie(movie);
     }
 
     @Override
     public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+        movieRepository.eliminarMovie(id);
     }
 }

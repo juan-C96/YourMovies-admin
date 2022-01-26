@@ -9,13 +9,11 @@ public interface IMovieService {
     Page<Movie> getAllMovies(Pageable pageable);
 
     Movie getMovieById(Long movie_id);
-  /*
-    Page<Movie> getMovieByTitulo(String titulo);
 
-    Page<Movie> getMovieByAnno(Integer anno);
+    Page<Movie> getMovieByTitulo(String titulo, Pageable pageable);
 
-    Page<Movie> getMovieByGenero(String genero);
-    */
+    Page<Movie> getMovieByGenero(String genero, Pageable pageable);
+
     void saveMovie(Movie movie);
 
     void deleteMovie(Long movie_id);

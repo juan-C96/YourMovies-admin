@@ -42,13 +42,27 @@ public class MovieServiceImpl implements IMovieService {
         Page<Movie> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), moviesList.size());
         return page;
     }
-//pru
+
     @Override
     public Movie getMovieById(Long movie_id) {
-        System.out.println("a");
         Movie movie = template.getForObject(url + "/" + movie_id, Movie.class);
-        System.out.println("b");
         return movie;
+    }
+
+    @Override
+    public Page<Movie> getMovieByTitulo(String titulo, Pageable pageable) {
+        Movie[] movies = template.getForObject(url + "/titulo/" + titulo, Movie[].class);
+        List<Movie> lista = Arrays.asList(movies);
+        Page<Movie> page = new PageImpl<>(lista, pageable, lista.size());
+        return page;
+    }
+
+    @Override
+    public Page<Movie> getMovieByGenero(String genero, Pageable pageable) {
+        Movie[] movies = template.getForObject(url + "/genero/" + genero, Movie[].class);
+        List<Movie> lista = Arrays.asList(movies);
+        Page<Movie> page = new PageImpl<>(lista, pageable, lista.size());
+        return page;
     }
 
     @Override

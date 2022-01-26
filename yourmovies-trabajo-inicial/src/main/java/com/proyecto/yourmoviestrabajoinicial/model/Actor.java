@@ -1,5 +1,7 @@
 package com.proyecto.yourmoviestrabajoinicial.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +17,7 @@ public class Actor {
     private String name;
 
     @Column(name = "f_born")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date f_born;
 
     @Column(name = "country")

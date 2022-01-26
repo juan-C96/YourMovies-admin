@@ -35,7 +35,7 @@ public class Movie {
     @Column(name = "imagen")
     private String imagen;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 
     @JoinTable(name = "t_movies_actors", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "movie_id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
     List<Actor> actors;
@@ -57,7 +57,7 @@ public class Movie {
         this.actors = actors;
     }
 
-    public Movie(String titulo, int anno, int duracion, String pais, String direccion, String genero, String sinopsis) {
+    public Movie(String titulo, int anno, int duracion, String pais, String direccion, String genero, String sinopsis, String imagen) {
         this.titulo = titulo;
         this.anno = anno;
         this.duracion = duracion;
@@ -65,6 +65,7 @@ public class Movie {
         this.direccion = direccion;
         this.genero = genero;
         this.sinopsis = sinopsis;
+        this.imagen = imagen;
     }
 
     public Long getMovie_id() {

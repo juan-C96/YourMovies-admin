@@ -58,13 +58,9 @@ public class MovieController {
 
     @GetMapping(value = "/ver/{id}")
     public String ver(Model model, @PathVariable("id") Long id, RedirectAttributes attributes) {
-        System.out.println("0");
         Movie movie = movieService.getMovieById(id);
-        System.out.println("1");
         model.addAttribute("movie", movie);
-        System.out.println("2");
         model.addAttribute("titulo", "Detalle de la película: " + movie.getTitulo());
-        System.out.println("3");
         return "movies/verMovie";
     }
 
@@ -99,6 +95,33 @@ public class MovieController {
         return "movies/formMovie";
     }
 
+    @GetMapping("/titulo")
+    public String buscarMoviesPorTitulo(Model model, @RequestParam(name="page", defaultValue="0") int page, @RequestParam("titulo") String titulo) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Movie> listado;
+        if (titulo.equals("")) {
+            listado = movieService.getAllMovies(pageable);
+        } else {
+            listado = movieService.getMovieByTitulo(titulo, pageable);
+        }
+        PageRender<Movie> pageRender = new PageRender<Movie>("/listado", listado);
+        model.addAttribute("titulo", "Listado de películas por título");
+        model.addAttribute("listadoMovies", listado.getContent());
+        model.addAttribute("page", pageRender);
+        return "movies/listMovie";
+    }
+
+    @GetMapping("/genero")
+    public String buscarMoviesPorGenero(Model model, @RequestParam(name="page", defaultValue="0") int page, @RequestParam("genero") String genero) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Movie> listado = movieService.getMovieByGenero(genero, pageable);
+        PageRender<Movie> pageRender = new PageRender<Movie>("/listado", listado);
+        model.addAttribute("titulo", "Listado de películas por genero");
+        model.addAttribute("listadoMovies", listado.getContent());
+        model.addAttribute("page", pageRender);
+        return "movies/listMovie";
+    }
+
     @PostMapping("/guardar/")
     public String guardarMovie(Model model, Movie movie,
                                @RequestParam("file") MultipartFile foto, RedirectAttributes attributes) {
@@ -107,7 +130,6 @@ public class MovieController {
 //    	}
 
         if (!foto.isEmpty()) {
-
             if (movie.getMovie_id() != null && movie.getMovie_id() > 0 && movie.getImagen() != null
                     && movie.getImagen().length() > 0) {
 
@@ -126,14 +148,10 @@ public class MovieController {
             movie.setImagen(uniqueFilename);
         }
 
-        System.out.println("nnnnnnnnnn");
         movieService.saveMovie(movie);
-        System.out.println("aaaaaaaaaaa");
         model.addAttribute("titulo", "Nueva película");
-        System.out.println("cccccccccc");
         attributes.addFlashAttribute("msg", "Los datos de la película fueron guardados!");
-        System.out.println("bbbbbbb");
-        return "redirect:/mmovies/listMovie";
+        return "redirect:/mmovies/listado";
     }
 
     @GetMapping("/editar/{id}")
@@ -146,9 +164,7 @@ public class MovieController {
 
     @GetMapping("/borrar/{id}")
     public String eliminarCurso(Model model, @PathVariable("id") Long id, RedirectAttributes attributes) {
-        System.out.println("kkkkkkk ");
         Movie movie = movieService.getMovieById(id);
-        System.out.println("dddddd ");
         if (uploadFileService.delete(movie.getImagen())) {
             attributes.addFlashAttribute("msg", "Imagen " + movie.getImagen() + " eliminada con exito!");
         }
@@ -156,6 +172,6 @@ public class MovieController {
         movieService.deleteMovie(id);
         attributes.addFlashAttribute("msg", "Los datos de la peícula fueron borrados!");
 
-        return "redirect:/mmovies/listMovie";
+        return "redirect:/mmovies/listado";
     }
 }
