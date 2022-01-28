@@ -68,4 +68,5 @@ public class MovieServiceImpl implements IMovieService {
     public void deleteMovie(Long id) {
         movieRepository.eliminarMovie(id);
     }
+
 }

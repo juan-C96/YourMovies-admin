@@ -1,27 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Your Movies</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    body {
+        background-color:snow;
+        }
+    div{
+        background-color:snow;
+    }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="text-center">Gestión de películas</h1>
-    <hr>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a>
-                    <a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a>
-                    <a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-</div>
 
+<header id="main-header">
+
+    <a id="logo-header" href="/mmovies/">
+        <span class="site-name">Your Movies!</span>
+        <span class="site-desc">Catálogo mas grande de películas en internet</span>
+    </a>
+    <nav>
+        <ul>
+            <li><a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a></li>
+            <li><a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a></li>
+            <li><a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+<div class="container">
+<br>
+<div class="card bg-light" style="padding:3px;">
+<ul class="list-group">
+<table class="table table-striped table bordered">
+    <center><strong><h2><div class="card-header" th:text="${titulo}"></div></h2></strong></center>
+    <div class="card-body">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Portada</th>
+        <th scope="col">Ver</th>
+        <th scope="col">Datos</th>
+        <th scope="col">Sinopsis</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie : ${listadoMovies}">
+        <td><img th:src="@{'/mmovies/uploads/' + ${movie.imagen}}" style="max-width: 75%;"></td>
+        <td> <a class="btn btn-primary btn-xs" th:href="@{/mmovies/ver/{id}(id=${movie.movie_id})}" th:text="${movie.movie_id}"></a></td>
+        <td>
+            <strong>Título: </strong><label th:text="${movie.titulo}"></label><br>
+            <strong>Año: </strong><label th:text="${movie.anno}"></label><br>
+            <strong>Duración: </strong><label th:text="${movie.duracion}"></label><br>
+            <strong>País: </strong><label th:text="${movie.pais}"></label><br>
+            <strong>Dirección: </strong><label th:text="${movie.direccion}"></label><br>
+            <strong>Género: </strong><label th:text="${movie.genero}"></label>
+
+        </td>
+        <td width="600" th:text="${movie.sinopsis}"></td>
+    </tr>
+
+    </tbody>
+    </div>
+</table>
+    <nav th:replace="paginator-nav :: paginator"></nav>
+</ul>
+</div>
+</div>
+<br>
+
+<footer id="main-footer">
+    <p>&copy; 2022 <a href="/mmovies/">Create by Juan Carlos Hernández Medina</a></p>
+</footer>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

@@ -1,6 +1,7 @@
 package com.proyecto.yourmoviestrabajoinicial.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Movie {
     @Column(name = "genero")
     private String genero;
 
-    @Column(name = "sinopsis")
+    @Column(name = "sinopsis", length = 9999)
     private String sinopsis;
 
     @Column(name = "imagen")

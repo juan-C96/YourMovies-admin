@@ -43,9 +43,7 @@ public class ActorServiceImpl implements IActorService {
 
     @Override
     public Actor getActorById(Long actor_id) {
-        System.out.println("DDDD");
         Actor actor = template.getForObject(url + "/" + actor_id , Actor.class);
-        System.out.println("SSSS");
         return actor;
     }
 

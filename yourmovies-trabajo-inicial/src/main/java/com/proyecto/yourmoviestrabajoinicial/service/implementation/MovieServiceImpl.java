@@ -1,5 +1,6 @@
 package com.proyecto.yourmoviestrabajoinicial.service.implementation;
 
+import com.proyecto.yourmoviestrabajoinicial.model.Actor;
 import com.proyecto.yourmoviestrabajoinicial.model.Movie;
 import com.proyecto.yourmoviestrabajoinicial.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,14 @@ public class MovieServiceImpl implements IMovieService {
     @Override
     public Page<Movie> getMovieByGenero(String genero, Pageable pageable) {
         Movie[] movies = template.getForObject(url + "/genero/" + genero, Movie[].class);
+        List<Movie> lista = Arrays.asList(movies);
+        Page<Movie> page = new PageImpl<>(lista, pageable, lista.size());
+        return page;
+    }
+
+    @Override
+    public Page<Movie> getMovieByActor(String actor, Pageable pageable) {
+        Movie[] movies = template.getForObject(url + "/actor/" + actor, Movie[].class);
         List<Movie> lista = Arrays.asList(movies);
         Page<Movie> page = new PageImpl<>(lista, pageable, lista.size());
         return page;

@@ -4,6 +4,7 @@ import com.proyecto.yourmoviestrabajoinicial.model.Actor;
 import com.proyecto.yourmoviestrabajoinicial.model.Movie;
 import com.proyecto.yourmoviestrabajoinicial.paginator.PageRender;
 import com.proyecto.yourmoviestrabajoinicial.service.IActorService;
+import com.proyecto.yourmoviestrabajoinicial.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,12 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/aactors")
 public class ActorController {
 
     @Autowired
     IActorService actorService;
+
+    @Autowired
+    IMovieService movieService;
 
     @GetMapping("/listado")
     public String listadoActores(Model model, @RequestParam(name="page", defaultValue="0") int page) {
@@ -66,13 +72,34 @@ public class ActorController {
     }
 
     @GetMapping("/borrar/{id}")
-    public String eliminarActor(Model model, @PathVariable("id") Long id, RedirectAttributes attributes) {
+    public String eliminarActor(Model model, @PathVariable("id") Long id, RedirectAttributes attributes,
+                                @RequestParam(name="page", defaultValue="0") int page) {
+
+        Pageable pageable = PageRequest.of(page, 5);
         Actor actor = actorService.getActorById(id);
-        if (actor != null) {
-            actorService.deleteActor(id);
-            attributes.addFlashAttribute("msg", "Los datos del actor fueron borrados!");
-        } else {
-            attributes.addFlashAttribute("msg", "Actor no encontrado!");
+        Page<Movie> listado = movieService.getAllMovies(pageable);
+        List<Movie> peliculas = listado.getContent();
+
+        Boolean flag = true;
+
+        for (int i = 0; i < peliculas.size(); i++) {
+            for (int j= 0; j < peliculas.get(i).getActors().size(); j++) {
+                if(peliculas.get(i).getActors().get(j).getActor_id() == id){
+                    flag = false;
+                }
+            }
+        }
+        if(!flag){
+            attributes
+                    .addFlashAttribute("mensaje", "No puede eliminar el actor porque se ecuentra en una película.")
+                    .addFlashAttribute("clase", "success");
+        }else{
+            if (actor != null) {
+                actorService.deleteActor(id);
+                attributes.addFlashAttribute("msg", "Los datos del actor fueron borrados!");
+            } else {
+                attributes.addFlashAttribute("msg", "Actor no encontrado!");
+            }
         }
 
         return "redirect:/aactors/listado";

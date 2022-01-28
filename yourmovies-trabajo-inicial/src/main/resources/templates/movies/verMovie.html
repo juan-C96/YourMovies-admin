@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <title>CursosApp | Aplicación de gestión de cursos</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color:snow;
+        }
+        div{
+            background-color:snow;
+        }
+    </style>
 </head>
 <body>
+<header id="main-header">
 
-<div class="container py-4">
-
-    <h1 class="text-center">Gestión de películas</h1>
-    <hr>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a>
-                    <a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a>
-                    <a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a>
-                </div>
-            </div>
-        </div>
+    <a id="logo-header" href="/mmovies/">
+        <span class="site-name">Your Movies!</span>
+        <span class="site-desc">Catálogo mas grande de películas en internet</span>
+    </a>
+    <nav>
+        <ul>
+            <li><a class="nav-link" th:href="@{/mmovies/listado}">Listado de películas</a></li>
+            <li><a class="nav-link" th:href="@{/mmovies/buscar}">Buscar películas</a></li>
+            <li><a class="nav-link" th:href="@{/aactors/listado}">Listado de actores</a></li>
+        </ul>
     </nav>
 
-    <div class="card bg-light">
+</header>
+<div class="container">
+    <br>
+    <div class="card bg-light" style="padding:3px;">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
 <!--th:if="${#strings.length(movie.imagen) > 0}"-->
@@ -33,20 +42,24 @@
 
             <ul class="list-group">
                 <li class="list-group-item active" th:text="${movie.movie_id}"></li>
-                <li class="list-group-item" th:text="${movie.titulo}"></li>
-                <li class="list-group-item" th:text="${movie.anno}"></li>
-                <li class="list-group-item" th:text="${movie.duracion}"></li>
-                <li class="list-group-item" th:text="${movie.pais}"></li>
-                <li class="list-group-item" th:text="${movie.direccion}"></li>
-                <li class="list-group-item" th:text="${movie.genero}"></li>
-                <li class="list-group-item" th:text="${movie.sinopsis}"></li>
+                <strong>Título: </strong><li class="list-group-item" th:text="${movie.titulo}"></li>
+                <strong>Año: </strong><li class="list-group-item" th:text="${movie.anno}"></li>
+                <strong>Duración: </strong><li class="list-group-item" th:text="${movie.duracion}"></li>
+                <strong>País: </strong><li class="list-group-item" th:text="${movie.pais}"></li>
+                <strong>Dirección: </strong><li class="list-group-item" th:text="${movie.direccion}"></li>
+                <strong>Género: </strong><li class="list-group-item" th:text="${movie.genero}"></li>
+                <strong>Reparto: </strong><li class="list-group-item" th:text="${nombres}"></li>
+                <strong>Sinopsis: </strong><li class="list-group-item" th:text="${movie.sinopsis}"></li>
             </ul>
 
-        </div>
     </div>
     <hr>
     <a class="btn btn-primary" role="button" th:href="@{/mmovies/listado}">Volver al listado de películas</a>
 </div>
-
+</div>
+<br>
+    <footer id="main-footer">
+        <p>&copy; 2022 <a href="/mmovies/">Create by Juan Carlos Hernández Medina</a></p>
+    </footer>
 </body>
 </html>

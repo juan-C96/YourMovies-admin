@@ -1,13 +1,12 @@
 package com.proyecto.yourmovies.controller;
 
 import com.proyecto.yourmovies.model.Movie;
-import com.proyecto.yourmovies.service.IActorService;
 import com.proyecto.yourmovies.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,7 +15,7 @@ public class MovieController {
     @Autowired
     private IMovieService iMovieService;
 
-    public MovieController(IMovieService iMovieService, IActorService iActorService) {
+    public MovieController(IMovieService iMovieService) {
         super();
         this.iMovieService = iMovieService;
     }
@@ -44,6 +43,31 @@ public class MovieController {
     @GetMapping("/movies/genero/{genero}")
     public List<Movie> getMoviesByGenero(@PathVariable("genero") String genero) {
         return iMovieService.getMoviesByGenero(genero);
+    }
+
+    @GetMapping("/movies/actor/{actor}")
+    public List<Movie> getMoviesByActor(@PathVariable("actor") String actor) {
+        List<Movie> movies = iMovieService.getAllMovies();
+        List<Movie> movies_2 = new ArrayList<>();
+
+        Boolean flag = true;
+
+        for(int i = 0; i < movies.size(); i++) {
+            for (int j = 0; j < movies.get(i).getActors().size(); j++) {
+                if (movies.get(i).getActors().get(j).getName().contains(actor)){
+                    for(int a = 0; a < movies_2.size(); a++) {
+                        if(movies_2.get(a).getMovie_id() == movies.get(i).getMovie_id()){
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        movies_2.add(movies.get(i));
+                    }
+                    flag = true;
+                }
+            }
+        }
+        return movies_2;
     }
 
     @PutMapping("/movies")

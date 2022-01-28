@@ -14,6 +14,8 @@ public interface IMovieService {
 
     Page<Movie> getMovieByGenero(String genero, Pageable pageable);
 
+    Page<Movie> getMovieByActor(String actor, Pageable pageable);
+
     void saveMovie(Movie movie);
 
     void deleteMovie(Long movie_id);
